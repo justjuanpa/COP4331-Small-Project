@@ -138,3 +138,198 @@ select{
     font-family: 'Ubuntu', sans-serif;
     color: #95060a;
 }
+
+.appShell
+{
+    width: min(1120px, 92%);
+    margin: 32px auto;
+    font-family: 'Ubuntu', sans-serif;
+    color: #17202a;
+}
+
+.topBar
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 0;
+}
+
+#contactTitle
+{
+    margin: 0 0 8px 0;
+    font-size: 42px;
+    color: #ffffff;
+}
+
+.topBar #userName
+{
+    display: block;
+    width: auto;
+    margin: 0;
+    text-align: left;
+    color: #f4f7f9;
+    font-size: 18px;
+}
+
+.topBar #logoutButton
+{
+    width: auto;
+    margin: 0;
+}
+
+.contactToolbar
+{
+    display: grid;
+    grid-template-columns: 1fr 160px;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.contactLayout
+{
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.contactForm,
+.contactResults
+{
+    background: #f4f7f9;
+    border: 1px solid #d7dee5;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.contactForm h2,
+.contactResults h2
+{
+    margin: 0 0 16px 0;
+    font-size: 22px;
+    color: #1f2d3d;
+}
+
+.contactForm input,
+#contactSearchText
+{
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 12px 0;
+    padding: 12px 14px;
+    border: 1px solid #c5ced8;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: left;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#contactSearchText
+{
+    margin: 0;
+}
+
+.primaryButton,
+.secondaryButton
+{
+    min-height: 44px;
+    border: 0;
+    border-radius: 6px;
+    padding: 0 18px;
+    font-size: 16px;
+    font-family: 'Ubuntu', sans-serif;
+    cursor: pointer;
+}
+
+.primaryButton
+{
+    width: 100%;
+    background: #16697a;
+    color: #ffffff;
+}
+
+.secondaryButton
+{
+    background: #ffffff;
+    color: #16697a;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover
+{
+    background: #254f5f;
+    color: #ffffff;
+}
+
+.resultsHeader
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.statusMessage
+{
+    display: block;
+    min-height: 22px;
+    color: #95060a;
+    font-size: 14px;
+}
+
+.contactTableWrap
+{
+    overflow-x: auto;
+}
+
+.contactTable
+{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.contactTable th,
+.contactTable td
+{
+    padding: 13px 12px;
+    border-bottom: 1px solid #d7dee5;
+    text-align: left;
+}
+
+.contactTable th
+{
+    color: #52616f;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.emptyState
+{
+    color: #52616f;
+    text-align: center;
+}
+
+@media (max-width: 760px)
+{
+    .topBar,
+    .resultsHeader
+    {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .contactToolbar,
+    .contactLayout
+    {
+        grid-template-columns: 1fr;
+    }
+
+    #contactTitle
+    {
+        font-size: 34px;
+    }
+}
