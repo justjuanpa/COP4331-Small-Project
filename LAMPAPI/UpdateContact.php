@@ -6,7 +6,7 @@ $firstName = $inData["firstName"];
 $lastName  = $inData["lastName"];
 $phone     = $inData["phone"];
 $email     = $inData["email"];
-$userId    = $inData["userId"]; // Used to verify ownership
+$userId    = $inData["userId"];
 
 $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 if ($conn->connect_error)
@@ -27,7 +27,7 @@ else
   {
     if ($stmt->affected_rows > 0)
     {
-      returnWithError(""); // Success
+      returnWithError("Contact updated successfully."); // Success
     }
     else
     {
