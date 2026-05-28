@@ -278,6 +278,7 @@ function searchContacts()
 					rows += "<td>" + escapeHtml(contact.firstName + " " + contact.lastName) + "</td>";
 					rows += "<td>" + escapeHtml(contact.phone) + "</td>";
 					rows += "<td>" + escapeHtml(contact.email) + "</td>";
+					rows += "<td>" + new Date().toLocaleDateString() + "</td>";
 					rows += "</tr>";
 				}
 
