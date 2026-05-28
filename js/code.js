@@ -190,6 +190,24 @@ function addContact()
 	let contactLastName = document.getElementById("contactLastName").value.trim();
 	let contactPhone = document.getElementById("contactPhone").value.trim();
 	let contactEmail = document.getElementById("contactEmail").value.trim();
+
+	//remove nondigits from phone
+	let digitsOnly = contactPhone.replace(/\D/g, "");
+	//must be 10 digits
+	if(digitsOnly.length != 10)
+	{
+		document.getElementById("contactAddResult").innerHTML = "Phone number must be exactly 10 digits";
+		return;
+	}
+
+	//email validation
+	let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	if(!emailPattern.test(contactEmail))
+	{
+		document.getElementById("contactAddResult").innerHTML = "Please enter a valid email address";
+		return;
+	}
+
 	document.getElementById("contactAddResult").innerHTML = "";
 
 	let tmp = {
