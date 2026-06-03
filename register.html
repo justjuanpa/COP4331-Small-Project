@@ -1,46 +1,66 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <title>Personal contact manager sigin</title>
-    </head>
-    <body>
-        <h1>SignIn</h1>
-        <form id="registerForm">
-            <div>
-                <label for="firstName">First name:</label>
-                <input type="text" id="firstName" name="firstName" placeholder="first name">
-            </div>
+<head>
+    <title>NexusContact Sign Up</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
 
-            <br>
-            <div>
-                <label for="lastName">Last name:</label>
-                <input type="text" id="lastName" name="lastName" placeholder="last name">
-            </div>
+<body>
+    <main class="authPage">
 
-            <br>
-            <div>
-                <label for="login">Username:</label>
-                <input type="text" id="login" name="login" placeholder="username">
-            </div>
+        <section class="brandSide">
+            <img src="images/logo.png" alt="NexusContact logo" class="logo">
+            <h1>Welcome to NexusContact</h1>
+            <p>Login or register to manage your contacts online</p>
+        </section>
 
-            <br>
+        <section class="formSide">
+            <form id="registerForm" class="authForm">
+                <h2>Sign Up</h2>
 
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" placeholder="password">
-            </div>
+                <div>
+                    <label for="firstName">First name:</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="first name">
+                    <span id="firstNameError" class="fieldError"></span>
+                </div>
 
-            <br>
+                <div>
+                    <label for="lastName">Last name:</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="last name">
+                    <span id="lastNameError" class="fieldError"></span>
+                </div>
 
-            <div>
-                <button type="Submit">Register</button>
-        </form>
-        <p>
-            Alredy registered?
-            <a href="index.html">Login here</a>
-        </p>
+                <div>
+                    <label for="login">Username:</label>
+                    <input type="text" id="login" name="login" placeholder="username">
+                    <span id="loginError" class="fieldError"></span>
+                </div>
+
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="password">
+                    <p class="passwordHint">Password must be at least 6 characters</p>
+                    <span id="passwordError" class="fieldError"></span>
+                </div>
+
+                <div>
+                    <label for="confirmPassword">Confirm password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password">
+                    <span id="confirmPasswordError" class="fieldError"></span>
+                </div>
+
+                <button type="submit">Register</button>
+
+                <p>
+                    Already registered?
+                    <a href="index.html">Login here</a>
+                </p>
+            </form>
+        </section>
+
+    </main>
 
     <script src="js/auth.js"></script>
-    </body>
+</body>
 </html>
