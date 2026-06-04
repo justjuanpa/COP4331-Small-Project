@@ -34,7 +34,7 @@ function readCookie()
 	}
 	else
 	{
-		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
+		document.getElementById("userName").innerHTML = "Welcome, " + firstName + " " + lastName;
 	}
 }
 
@@ -160,17 +160,20 @@ function searchContacts()
 					rows += "<td id='phone-" + contact.id + "'>" + escapeHtml(contact.phone) + "</td>";
 					rows += "<td id='email-" + contact.id + "'>" + escapeHtml(contact.email) + "</td>";
 					rows += "<td>" + escapeHtml(contact.dateCreated) + "</td>";
-					rows += "<td>" + "<button onclick='editContact(" 
+					rows += "<td>";
+					rows += "<div class='actionButtons'>";
+					rows += "<button type='button' class='editButton' onclick='editContact(" 
 						+ contact.id + ",\"" 
 						+ escapeHtml(contact.firstName) + "\",\"" 
 						+ escapeHtml(contact.lastName) + "\",\"" 
 						+ escapeHtml(contact.phone) + "\",\"" 
 						+ escapeHtml(contact.email) 
-						+ "\")'>Edit</button> " 
-						+ "<button onclick='deleteContact(" 
+						+ "\")'>Edit</button>";
+					rows += "<button type='button' class='deleteButton' onclick='deleteContact(" 
 						+ contact.id 
-						+ ")'>Delete</button>"
-						+ "</td>";
+						+ ")'>Delete</button>";
+					rows += "</div>";
+					rows += "</td>";
 					rows += "</tr>";
 				}
 
@@ -201,8 +204,10 @@ function editContact(id, firstName, lastName, phone, email)
 	let row = document.getElementById("row-" + id);
 
 	row.cells[4].innerHTML = 
-		"<button onclick='saveContact(" + id + ")'>Save</button> " +
-		"<button onclick='searchContacts()'>Cancel</button>";
+		"<div class='actionButtons'>" +
+		"<button type='button' class='editButton' onclick='saveContact(" + id + ")'>Save</button>" +
+		"<button type='button' class='deleteButton' onclick='searchContacts()'>Cancel</button>" +
+		"</div>";
 }
 
 function saveContact(contactId)
