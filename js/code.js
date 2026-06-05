@@ -159,7 +159,9 @@ function searchContacts()
 					rows += "<td id='name-" + contact.id + "'>" + escapeHtml(contact.firstName + " " + contact.lastName) + "</td>";
 					rows += "<td id='phone-" + contact.id + "'>" + escapeHtml(contact.phone) + "</td>";
 					rows += "<td id='email-" + contact.id + "'>" + escapeHtml(contact.email) + "</td>";
-					rows += "<td>" + escapeHtml(contact.dateCreated) + "</td>";
+
+          rows += "<td>" + new Date(contact.dateCreated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + "</td>";
+
 					rows += "<td>";
 					rows += "<div class='actionButtons'>";
 					rows += "<button type='button' class='editButton' onclick='editContact(" 
