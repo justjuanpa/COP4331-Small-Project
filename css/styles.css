@@ -219,36 +219,60 @@ a:hover {
 }
 
 /* Contacts page styles */
-
 .appShell {
     min-height: 100vh;
-    padding: 40px;
+    padding: 0 40px 40px 40px;
     box-sizing: border-box;
     background-color: var(--mist);
 }
 
+/* Contacts top bar */
 .topBar {
+    width: 100%;
+    margin: 0;
+    padding: 18px 40px;
+    box-sizing: border-box;
+    background-color: var(--cream);
+    border-radius: 0;
+    border-top: none;
+    border-bottom: 5px solid var(--orange);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--white);
-    padding: 20px 30px;
-    border-radius: 14px;
-    border-top: 8px solid var(--orange);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    margin-bottom: 25px;
+}
+
+.topBarLeft {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.topBarLogo {
+    width: 65px;
+    height: 65px;
+    object-fit: contain;
 }
 
 #contactTitle {
     margin: 0;
     color: var(--olive-gray);
+    font-size: 30px;
 }
 
 #userName {
     color: var(--olive-gray);
     font-weight: bold;
+    font-size: 16px;
 }
 
+/* Logout button */
+#logoutButton {
+    width: auto;
+    padding: 12px 24px;
+    margin-top: 0;
+}
+
+/* Search bar area */
 .contactToolbar {
     display: flex;
     gap: 12px;
@@ -256,7 +280,7 @@ a:hover {
     padding: 20px;
     border-radius: 14px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    margin-bottom: 25px;
+    margin: 25px 0;
 }
 
 .contactToolbar input {
@@ -269,15 +293,22 @@ a:hover {
     margin-top: 0;
 }
 
+/* Add contact + contact table layout */
 .contactLayout {
     display: flex;
     gap: 25px;
     align-items: flex-start;
 }
 
+/* Add contact form */
 .contactForm {
     width: 330px;
     margin: 0;
+    padding: 25px;
+    background-color: var(--white);
+    border-radius: 14px;
+    border-top: 8px solid var(--orange);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .contactForm h2 {
@@ -286,6 +317,7 @@ a:hover {
     margin-top: 0;
 }
 
+/* Contact results box */
 .contactResults {
     flex: 1;
     background-color: var(--white);
@@ -306,6 +338,7 @@ a:hover {
     margin-top: 0;
 }
 
+/* Table */
 .contactTableWrap {
     overflow-x: auto;
 }
@@ -337,18 +370,71 @@ a:hover {
     font-weight: bold;
 }
 
-.secondaryButton,
-.primaryButton {
-    background-color: var(--orange);
-    color: var(--white);
+/* Edit/Delete buttons side by side */
+.actionButtons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
 }
 
-.secondaryButton:hover,
-.primaryButton:hover {
+.actionButtons button {
+    width: auto;
+    padding: 8px 14px;
+    margin: 0;
+    font-size: 14px;
+}
+
+.editButton {
     background-color: var(--olive-gray);
 }
 
+.deleteButton {
+    background-color: var(--orange);
+}
+
+.editButton:hover,
+.deleteButton:hover {
+    background-color: var(--warm-gray);
+}
+
+/* Mobile layout */
 @media (max-width: 900px) {
+    .authPage {
+        flex-direction: column;
+    }
+
+    .brandSide,
+    .formSide {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .brandSide {
+        padding: 35px 20px;
+    }
+
+    .formSide {
+        padding: 25px;
+    }
+
+    .brandSide h1 {
+        font-size: 32px;
+    }
+
+    .brandSide p {
+        font-size: 18px;
+    }
+
+    .logo {
+        width: 260px;
+    }
+
+    .authForm {
+        width: 100%;
+        max-width: 430px;
+    }
+
     .contactLayout {
         flex-direction: column;
     }
@@ -370,5 +456,9 @@ a:hover {
         flex-direction: column;
         gap: 15px;
         text-align: center;
+    }
+
+    .topBarLeft {
+        flex-direction: column;
     }
 }
