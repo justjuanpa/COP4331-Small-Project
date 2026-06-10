@@ -7,291 +7,379 @@ let lastName = "";
 
 function readCookie()
 {
-	userId = -1;
-	let data = document.cookie;
-	let splits = data.split(",");
-	for(var i = 0; i < splits.length; i++) 
-	{
-		let thisOne = splits[i].trim();
-		let tokens = thisOne.split("=");
-		if( tokens[0] == "firstName" )
-		{
-			firstName = tokens[1];
-		}
-		else if( tokens[0] == "lastName" )
-		{
-			lastName = tokens[1];
-		}
-		else if( tokens[0] == "userId" )
-		{
-			userId = parseInt( tokens[1].trim() );
-		}
-	}
-	
-	if( userId < 0 )
-	{
-		window.location.href = "index.html";
-	}
-	else
-	{
-		document.getElementById("userName").innerHTML = "Welcome, " + firstName + " " + lastName;
-	}
+        userId = -1;
+        let data = document.cookie;
+        let splits = data.split(",");
+        for(var i = 0; i < splits.length; i++)
+        {
+                let thisOne = splits[i].trim();
+                let tokens = thisOne.split("=");
+                if( tokens[0] == "firstName" )
+                {
+                        firstName = tokens[1];
+                }
+                else if( tokens[0] == "lastName" )
+                {
+                        lastName = tokens[1];
+                }
+                else if( tokens[0] == "userId" )
+                {
+                        userId = parseInt( tokens[1].trim() );
+                }
+        }
+
+        if( userId < 0 )
+        {
+                window.location.href = "index.html";
+        }
+        else
+        {
+                document.getElementById("userName").innerHTML = "Welcome, " + firstName + " " + lastName;
+        }
 }
 
 function doLogout()
 {
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	window.location.href = "index.html";
+        userId = 0;
+        firstName = "";
+        lastName = "";
+        document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+        window.location.href = "index.html";
 }
 
 function addContact()
 {
-	let contactFirstName = document.getElementById("contactFirstName").value.trim();
-	let contactLastName = document.getElementById("contactLastName").value.trim();
-	let contactPhone = document.getElementById("contactPhone").value.trim();
-	let contactEmail = document.getElementById("contactEmail").value.trim();
+        let contactFirstName = document.getElementById("contactFirstName").value.trim();
+        let contactLastName = document.getElementById("contactLastName").value.trim();
+        let contactPhone = document.getElementById("contactPhone").value.trim();
+        let contactEmail = document.getElementById("contactEmail").value.trim();
 
-	//remove nondigits from phone
-	let digitsOnly = contactPhone.replace(/\D/g, "");
-	//must be 10 digits
-	if(digitsOnly.length != 10)
-	{
-		document.getElementById("contactAddResult").innerHTML = "Phone number must be exactly 10 digits";
-		return;
-	}
+        clearContactError("contactFirstName");
+        clearContactError("contactLastName");
+        clearContactError("contactPhone");
+        clearContactError("contactEmail");
+        document.getElementById("contactAddResult").innerHTML = "";
 
-	//email validation
-	let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-	if(!emailPattern.test(contactEmail))
-	{
-		document.getElementById("contactAddResult").innerHTML = "Please enter a valid email address";
-		return;
-	}
+        if(contactFirstName === "")
+        {
+                showContactError("contactFirstName", "First name is required.");
+                return;
+        }
 
-	document.getElementById("contactAddResult").innerHTML = "";
+        if(contactLastName === "")
+        {
+                showContactError("contactLastName", "Last name is required.");
+                return;
+        }
 
-	let tmp = {
-		firstName: contactFirstName,
-		lastName: contactLastName,
-		phone: contactPhone,
-		email: contactEmail,
-		userId: userId
-	};
-	let jsonPayload = JSON.stringify(tmp);
+        if(contactPhone === "")
+        {
+                showContactError("contactPhone", "Phone number is required.");
+                return;
+        }
 
-	let url = urlBase + '/AddContact.' + extension;
+        //remove nondigits from phone
+        let digitsOnly = contactPhone.replace(/\D/g, "");
+        //must be 10 digits
+        if(digitsOnly.length != 10)
+        {
+                showContactError("contactPhone", "Phone number must be exactly 10 digits.");
+                return;
+        }
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				let jsonObject = JSON.parse(xhr.responseText);
-				if (jsonObject.error && jsonObject.error.length > 0)
-				{
-					document.getElementById("contactAddResult").innerHTML = jsonObject.error;
-					return;
-				}
+        if(contactEmail === "")
+        {
+                showContactError("contactEmail", "Email is required.");
+                return;
+        }
 
-				document.getElementById("addContactForm").reset();
-				document.getElementById("contactAddResult").innerHTML = "Contact has been added.";
-				searchContacts();
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("contactAddResult").innerHTML = err.message;
-	}
+        //email validation
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailPattern.test(contactEmail))
+        {
+                showContactError("contactEmail", "Please enter a valid email address.");
+                return;
+        }
+
+        let tmp = {
+                firstName: contactFirstName,
+                lastName: contactLastName,
+                phone: contactPhone,
+                email: contactEmail,
+                userId: userId
+        };
+        let jsonPayload = JSON.stringify(tmp);
+
+        let url = urlBase + '/AddContact.' + extension;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try
+        {
+                xhr.onreadystatechange = function()
+                {
+                        if (this.readyState == 4 && this.status == 200)
+                        {
+                                let jsonObject = JSON.parse(xhr.responseText);
+                                if (jsonObject.error && jsonObject.error.length > 0)
+                                {
+                                        document.getElementById("contactAddResult").innerHTML = jsonObject.error;
+                                        return;
+                                }
+
+                                document.getElementById("addContactForm").reset();
+                                document.getElementById("contactAddResult").innerHTML = "Contact has been added.";
+                                clearContactList();
+                        }
+                };
+                xhr.send(jsonPayload);
+        }
+        catch(err)
+        {
+                document.getElementById("contactAddResult").innerHTML = err.message;
+        }
 }
 
-function searchContacts()
+function clearContactList()
 {
-	let searchInput = document.getElementById("contactSearchText");
-	let srch = searchInput ? searchInput.value.trim() : "";
-	let contactList = document.getElementById("contactList");
-	let contactSearchResult = document.getElementById("contactSearchResult");
+        let contactList = document.getElementById("contactList");
+        let contactSearchResult = document.getElementById("contactSearchResult");
 
-	if (!contactList || userId < 1)
-	{
-		return;
-	}
+        if(contactList)
+        {
+                contactList.innerHTML = '<tr><td colspan="5" class="emptyState">Start typing in the search bar or click Show All Contacts.</td></tr>';
+        }
 
-	contactSearchResult.innerHTML = "";
+        if(contactSearchResult)
+        {
+                contactSearchResult.innerHTML = "";
+        }
+}
 
-	let tmp = {search: srch, userId: userId};
-	let jsonPayload = JSON.stringify(tmp);
+function showAllContacts()
+{
+        let searchInput = document.getElementById("contactSearchText");
+        if(searchInput)
+        {
+                searchInput.value = "";
+        }
 
-	let url = urlBase + '/SearchContacts.' + extension;
+        searchContacts(true);
+}
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function()
-		{
-			if (this.readyState == 4 && this.status == 200)
-			{
-				let jsonObject = JSON.parse(xhr.responseText);
-				let contacts = jsonObject.results || [];
+function searchContacts(showAll = false)
+{
+        let searchInput = document.getElementById("contactSearchText");
+        let srch = searchInput ? searchInput.value.trim() : "";
+        let contactList = document.getElementById("contactList");
+        let contactSearchResult = document.getElementById("contactSearchResult");
 
-				if (contacts.length < 1)
-				{
-					contactList.innerHTML = '<tr><td colspan="5" class="emptyState">No contacts found.</td></tr>';
-					contactSearchResult.innerHTML = jsonObject.error || "";
-					return;
-				}
+        if (!contactList || userId < 1)
+        {
+                return;
+        }
 
-				let rows = "";
-				for (let i = 0; i < contacts.length; i++)
-				{
-					let contact = contacts[i];
-					rows += "<tr id='row-" + contact.id + "'>";
-					rows += "<td id='name-" + contact.id + "'>" + escapeHtml(contact.firstName + " " + contact.lastName) + "</td>";
-					rows += "<td id='phone-" + contact.id + "'>" + escapeHtml(contact.phone) + "</td>";
-					rows += "<td id='email-" + contact.id + "'>" + escapeHtml(contact.email) + "</td>";
+        contactSearchResult.innerHTML = "";
 
-          rows += "<td>" + new Date(contact.dateCreated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + "</td>";
+        if(srch === "" && !showAll)
+        {
+                clearContactList();
+                return;
+        }
 
-					rows += "<td>";
-					rows += "<div class='actionButtons'>";
-					rows += "<button type='button' class='editButton' onclick='editContact(" 
-						+ contact.id + ",\"" 
-						+ escapeHtml(contact.firstName) + "\",\"" 
-						+ escapeHtml(contact.lastName) + "\",\"" 
-						+ escapeHtml(contact.phone) + "\",\"" 
-						+ escapeHtml(contact.email) 
-						+ "\")'>Edit</button>";
-					rows += "<button type='button' class='deleteButton' onclick='deleteContact(" 
-						+ contact.id 
-						+ ")'>Delete</button>";
-					rows += "</div>";
-					rows += "</td>";
-					rows += "</tr>";
-				}
+        let tmp = {search: srch, userId: userId};
+        let jsonPayload = JSON.stringify(tmp);
 
-				contactList.innerHTML = rows;
-				contactSearchResult.innerHTML = contacts.length + " contact(s) found.";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		contactSearchResult.innerHTML = err.message;
-	}
+        let url = urlBase + '/SearchContacts.' + extension;
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        try
+        {
+                xhr.onreadystatechange = function()
+                {
+                        if (this.readyState == 4 && this.status == 200)
+                        {
+                                let jsonObject = JSON.parse(xhr.responseText);
+                                let contacts = jsonObject.results || [];
+
+                                if (contacts.length < 1)
+                                {
+                                        contactList.innerHTML = '<tr><td colspan="5" class="emptyState">No contacts found.</td></tr>';
+                                        contactSearchResult.innerHTML = jsonObject.error || "";
+                                        return;
+                                }
+
+                                let rows = "";
+                                for (let i = 0; i < contacts.length; i++)
+                                {
+                                        let contact = contacts[i];
+                                        rows += "<tr id='row-" + contact.id + "'>";
+                                        rows += "<td id='name-" + contact.id + "'>" + escapeHtml(contact.firstName + " " + contact.lastName) + "</td>";
+                                        rows += "<td id='phone-" + contact.id + "'>" + escapeHtml(contact.phone) + "</td>";
+                                        rows += "<td id='email-" + contact.id + "'>" + escapeHtml(contact.email) + "</td>";
+
+                                        rows += "<td>" + new Date(contact.dateCreated).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + "</td>";
+
+                                        rows += "<td>";
+                                        rows += "<div class='actionButtons'>";
+                                        rows += "<button type='button' class='editButton' onclick='editContact("
+                                                + contact.id + ",\""
+                                                + escapeHtml(contact.firstName) + "\",\""
+                                                + escapeHtml(contact.lastName) + "\",\""
+                                                + escapeHtml(contact.phone) + "\",\""
+                                                + escapeHtml(contact.email)
+                                                + "\")'>Edit</button>";
+                                        rows += "<button type='button' class='deleteButton' onclick='deleteContact("
+                                                + contact.id
+                                                + ")'>Delete</button>";
+                                        rows += "</div>";
+                                        rows += "</td>";
+                                        rows += "</tr>";
+                                }
+
+                                contactList.innerHTML = rows;
+                                contactSearchResult.innerHTML = contacts.length + " contact(s) found.";
+                        }
+                };
+                xhr.send(jsonPayload);
+        }
+        catch(err)
+        {
+                contactSearchResult.innerHTML = err.message;
+        }
 }
 
 function editContact(id, firstName, lastName, phone, email)
 {
-	document.getElementById("name-" + id).innerHTML =
-		"<input id ='editFirst-" + id + "' value='" + firstName + "'>" + 
-		"<input id ='editLast-" + id + "' value='" + lastName + "'>";
+        document.getElementById("name-" + id).innerHTML =
+                "<input id ='editFirst-" + id + "' value='" + firstName + "'>" +
+                "<input id ='editLast-" + id + "' value='" + lastName + "'>";
 
-	document.getElementById("phone-" + id).innerHTML =
-		"<input id='editPhone-" + id + "' value='" + phone + "'>";
-	
-	document.getElementById("email-" + id).innerHTML =
-		"<input id='editEmail-" + id + "' value='" + email + "'>";
+        document.getElementById("phone-" + id).innerHTML =
+                "<input id='editPhone-" + id + "' value='" + phone + "'>";
 
-	let row = document.getElementById("row-" + id);
+        document.getElementById("email-" + id).innerHTML =
+                "<input id='editEmail-" + id + "' value='" + email + "'>";
 
-	row.cells[4].innerHTML = 
-		"<div class='actionButtons'>" +
-		"<button type='button' class='editButton' onclick='saveContact(" + id + ")'>Save</button>" +
-		"<button type='button' class='deleteButton' onclick='searchContacts()'>Cancel</button>" +
-		"</div>";
+        let row = document.getElementById("row-" + id);
+
+        row.cells[4].innerHTML =
+                "<div class='actionButtons'>" +
+                "<button type='button' class='editButton' onclick='saveContact(" + id + ")'>Save</button>" +
+                "<button type='button' class='deleteButton' onclick='searchContacts()'>Cancel</button>" +
+                "</div>";
 }
 
 function saveContact(contactId)
 {
-	let firstName = document.getElementById("editFirst-" + contactId).value;
+        let firstName = document.getElementById("editFirst-" + contactId).value;
 
-	let lastName = document.getElementById("editLast-" + contactId).value;
+        let lastName = document.getElementById("editLast-" + contactId).value;
 
-	let phone = document.getElementById("editPhone-" + contactId).value;
+        let phone = document.getElementById("editPhone-" + contactId).value;
 
-	let email = document.getElementById("editEmail-" + contactId).value;
+        let email = document.getElementById("editEmail-" + contactId).value;
 
-	let tmp =
-	{
-		contactId: contactId,
-		firstName: firstName,
-		lastName: lastName,
-		phone: phone,
-		email: email,
-		userId: userId
-	};
+        let tmp =
+        {
+                contactId: contactId,
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                email: email,
+                userId: userId
+        };
 
-	let jsonPayload = JSON.stringify(tmp);
+        let jsonPayload = JSON.stringify(tmp);
 
-	let url = urlBase + "/UpdateContact." + extension;
+        let url = urlBase + "/UpdateContact." + extension;
 
-	let xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
 
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-	xhr.onreadystatechange = function()
-	{
-		if(this.readyState == 4 && this.status == 200)
-		{
-			searchContacts();
-		}
-	};
+        xhr.onreadystatechange = function()
+        {
+                if(this.readyState == 4 && this.status == 200)
+                {
+                        searchContacts();
+                }
+        };
 
-	xhr.send(jsonPayload);
+        xhr.send(jsonPayload);
 }
 
 function deleteContact(contactId)
 {
-	if(!confirm("Are you sure you want to delete this contact?"))
-	{
-		return;
-	}
+        if(!confirm("Are you sure you want to delete this contact?"))
+        {
+                return;
+        }
 
-	let tmp =
-	{
-		contactId: contactId,
-		userId: userId
-	};
+        let tmp =
+        {
+                contactId: contactId,
+                userId: userId
+        };
 
-	let jsonPayload = JSON.stringify(tmp);
+        let jsonPayload = JSON.stringify(tmp);
 
-	let url = urlBase + "/DeleteContact." + extension;
+        let url = urlBase + "/DeleteContact." + extension;
 
-	let xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
 
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-	xhr.onreadystatechange = function()
-	{
-		if(this.readyState == 4 && this.status == 200)
-		{
-			searchContacts();
-		}
-	};
+        xhr.onreadystatechange = function()
+        {
+                if(this.readyState == 4 && this.status == 200)
+                {
+                        searchContacts();
+                }
+        };
 
-	xhr.send(jsonPayload);
+        xhr.send(jsonPayload);
 
+}
+
+
+function showContactError(inputId, message)
+{
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(inputId + "Error");
+
+        if (input && error)
+        {
+                input.classList.add("inputError");
+                error.innerHTML = message;
+                error.style.display = "block";
+        }
+}
+
+function clearContactError(inputId)
+{
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(inputId + "Error");
+
+        if (input && error)
+        {
+                input.classList.remove("inputError");
+                error.innerHTML = "";
+                error.style.display = "none";
+        }
 }
 
 function escapeHtml(value)
 {
-	return String(value || "")
-		.replace(/&/g, "&amp;")
-		.replace(/</g, "&lt;")
-		.replace(/>/g, "&gt;")
-		.replace(/"/g, "&quot;")
-		.replace(/'/g, "&#039;");
+        return String(value || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
 }
