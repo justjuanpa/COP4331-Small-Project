@@ -1,19 +1,21 @@
-/* Frozen mist color scheme */
+/* Accessible orange color scheme */
 :root {
-    --olive-gray: #505050;
-    --warm-gray: #ADACA7;
-    --cream: #FCF8D8;
-    --light-cream: #fef8eb;
-    --mist: #D9DADF;
-    --orange: #DD700B;
-    --white: #ffffff;
-    --text: #1f1f1f;
+    --orange: #B45309;
+    --orange-dark: #92400E;
+    --charcoal: #1F2937;
+    --cream: #FFF7ED;
+    --light-cream: #FFFBF5;
+    --white: #FFFFFF;
+    --light-gray: #F3F4F6;
+    --border-gray: #D1D5DB;
+    --error-red: #B91C1C;
+    --text: #111827;
 }
 
 /* General page style */
 body {
     font-family: Arial, sans-serif;
-    background-color: var(--mist);
+    background-color: var(--cream);
     margin: 0;
     padding: 0;
     color: var(--text);
@@ -39,20 +41,20 @@ body {
 }
 
 .logo {
-    width: 360px;
-    max-width: 90%;
+    width: 460px;
+    max-width: 95%;
     margin-bottom: 35px;
     animation: logoPop 0.7s ease-out;
 }
 
 .brandSide h1 {
-    color: var(--olive-gray);
+    color: var(--charcoal);
     font-size: 42px;
     margin: 10px 0;
 }
 
 .brandSide p {
-    color: var(--olive-gray);
+    color: var(--charcoal);
     font-size: 21px;
     max-width: 480px;
     line-height: 1.5;
@@ -80,7 +82,7 @@ body {
 
 .authForm h2 {
     text-align: center;
-    color: var(--olive-gray);
+    color: var(--charcoal);
     font-size: 32px;
     margin-top: 0;
     margin-bottom: 28px;
@@ -90,7 +92,7 @@ body {
 label {
     display: block;
     margin-bottom: 7px;
-    color: var(--olive-gray);
+    color: var(--charcoal);
     font-weight: bold;
     font-size: 17px;
 }
@@ -100,11 +102,17 @@ input {
     width: 100%;
     padding: 13px;
     box-sizing: border-box;
-    border: 1px solid var(--warm-gray);
+    border: 1px solid var(--border-gray);
     border-radius: 7px;
     margin-bottom: 12px;
-    background-color: var(--cream);
+    background-color: var(--white);
+    color: var(--text);
     font-size: 16px;
+}
+
+input:focus {
+    outline: 3px solid #FDBA74;
+    border-color: var(--orange);
 }
 
 /* Buttons */
@@ -122,31 +130,37 @@ button {
 }
 
 button:hover {
-    background-color: var(--olive-gray);
+    background-color: var(--orange-dark);
+}
+
+button:focus {
+    outline: 3px solid #FDBA74;
+    outline-offset: 2px;
 }
 
 /* Text under forms */
 p {
     text-align: center;
+    color: var(--text);
 }
 
 /* Links */
 a {
-    color: var(--orange);
+    color: var(--orange-dark);
     font-weight: bold;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 a:hover {
-    color: var(--olive-gray);
+    color: var(--charcoal);
 }
 
 /* Error messages */
 .fieldError {
     display: none;
-    color: var(--orange);
-    background-color: #fff4ea;
-    border-left: 4px solid var(--orange);
+    color: var(--error-red);
+    background-color: #FEF2F2;
+    border-left: 4px solid var(--error-red);
     padding: 6px;
     margin-top: 4px;
     margin-bottom: 8px;
@@ -155,13 +169,13 @@ a:hover {
 }
 
 .inputError {
-    border: 2px solid var(--orange);
+    border: 2px solid var(--error-red);
 }
 
 /* Password hint */
 .passwordHint {
     font-size: 12px;
-    color: var(--olive-gray);
+    color: var(--charcoal);
     text-align: left;
     margin-top: -5px;
     margin-bottom: 10px;
@@ -180,50 +194,12 @@ a:hover {
     }
 }
 
-/* Mobile layout */
-@media (max-width: 800px) {
-    .authPage {
-        flex-direction: column;
-    }
-
-    .brandSide,
-    .formSide {
-        width: 100%;
-        box-sizing: border-box;
-    }
-
-    .brandSide {
-        padding: 35px 20px;
-    }
-
-    .formSide {
-        padding: 25px;
-    }
-
-    .brandSide h1 {
-        font-size: 32px;
-    }
-
-    .brandSide p {
-        font-size: 18px;
-    }
-
-    .logo {
-        width: 260px;
-    }
-
-    .authForm {
-        width: 100%;
-        max-width: 430px;
-    }
-}
-
 /* Contacts page styles */
 .appShell {
     min-height: 100vh;
     padding: 0 40px 40px 40px;
     box-sizing: border-box;
-    background-color: var(--mist);
+    background-color: var(--cream);
 }
 
 /* Contacts top bar */
@@ -232,9 +208,8 @@ a:hover {
     margin: 0;
     padding: 18px 40px;
     box-sizing: border-box;
-    background-color: var(--cream);
+    background-color: var(--charcoal);
     border-radius: 0;
-    border-top: none;
     border-bottom: 5px solid var(--orange);
     display: flex;
     justify-content: space-between;
@@ -255,12 +230,12 @@ a:hover {
 
 #contactTitle {
     margin: 0;
-    color: var(--olive-gray);
+    color: var(--white);
     font-size: 30px;
 }
 
 #userName {
-    color: var(--olive-gray);
+    color: var(--white);
     font-weight: bold;
     font-size: 16px;
 }
@@ -270,6 +245,12 @@ a:hover {
     width: auto;
     padding: 12px 24px;
     margin-top: 0;
+    background-color: var(--orange);
+    color: var(--white);
+}
+
+#logoutButton:hover {
+    background-color: var(--orange-dark);
 }
 
 /* Search bar area */
@@ -313,7 +294,7 @@ a:hover {
 
 .contactForm h2 {
     text-align: center;
-    color: var(--olive-gray);
+    color: var(--charcoal);
     margin-top: 0;
 }
 
@@ -334,7 +315,7 @@ a:hover {
 }
 
 .resultsHeader h2 {
-    color: var(--olive-gray);
+    color: var(--charcoal);
     margin-top: 0;
 }
 
@@ -349,7 +330,7 @@ a:hover {
 }
 
 .contactTable th {
-    background-color: var(--olive-gray);
+    background-color: var(--charcoal);
     color: var(--white);
     padding: 12px;
     text-align: left;
@@ -357,16 +338,17 @@ a:hover {
 
 .contactTable td {
     padding: 12px;
-    border-bottom: 1px solid var(--warm-gray);
+    border-bottom: 1px solid var(--border-gray);
+    color: var(--text);
 }
 
 .emptyState {
     text-align: center;
-    color: var(--olive-gray);
+    color: var(--charcoal);
 }
 
 .statusMessage {
-    color: var(--orange);
+    color: var(--orange-dark);
     font-weight: bold;
 }
 
@@ -386,16 +368,21 @@ a:hover {
 }
 
 .editButton {
-    background-color: var(--olive-gray);
+    background-color: var(--charcoal);
+    color: var(--white);
 }
 
 .deleteButton {
     background-color: var(--orange);
+    color: var(--white);
 }
 
-.editButton:hover,
+.editButton:hover {
+    background-color: #374151;
+}
+
 .deleteButton:hover {
-    background-color: var(--warm-gray);
+    background-color: var(--orange-dark);
 }
 
 /* Mobile layout */
@@ -427,7 +414,7 @@ a:hover {
     }
 
     .logo {
-        width: 260px;
+        width: 330px;
     }
 
     .authForm {
@@ -462,4 +449,3 @@ a:hover {
         flex-direction: column;
     }
 }
-
